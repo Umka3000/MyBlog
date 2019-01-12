@@ -1,0 +1,29 @@
+﻿@model Blog.View.UserPostViewModel
+@{
+	ViewBag.Title = "BlogEdit";
+}
+<br>
+<form action="/Blog/EditPost" method="post">
+	<textarea id="editor" name="editedInfo" rows="10" cols="30" style="height:440px" aria-label="editor">
+                    
+                       @Model.PostText
+                  
+                </textarea>
+	<input type="hidden" name="id" value="@Model.Id" />
+	<input type="submit" value="Correct" />
+</form>
+<script>
+	$(document).ready(function () {
+		$("#editor").kendoEditor({
+			resizable: {
+				content: true,
+				toolbar: true
+			}
+		});
+	});
+</script>
+
+
+
+
+

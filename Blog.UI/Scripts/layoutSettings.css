@@ -1,0 +1,23 @@
+﻿
+
+.layoutli {
+	font-size: 20px;
+	color: aliceblue;
+}
+#role {
+	color:chartreuse;
+}
+
+#nameRole {
+	
+	font-size:25px;
+	display:inline-block;
+}
+
+#divRender {
+	height: 750px;
+	
+}
+
+
+

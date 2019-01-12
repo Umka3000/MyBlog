@@ -1,0 +1,19 @@
+﻿@model Blog.View.UserPostViewModel
+
+
+@using (Html.BeginForm("CreatePost", "Blog", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <br />
+    @Html.AntiForgeryToken()
+    @Html.Label("PostName", "Blog Name")<br /> 
+    @Html.TextBox("PostName")<span>&nbsp</span>@Html.ValidationMessageFor(error => error.PostName, "", new { @class = "text-danger" })<br /><br />
+    @Html.Label("PostText", "Blog Text")<span>&nbsp</span> @Html.ValidationMessageFor(error => error.PostText, "", new { @class = "text-danger" })<br /> 
+    @Html.TextArea("PostText", "", 20, 200, null)<br />
+    <input type="hidden" name="UserName" value="@User.Identity.Name" />
+    <input type="file" name="uploadPicture" />@Html.ValidationMessageFor(error => error.uploadPicture, "", new { @class ="text-danger"})<br>
+    <input type="submit" value="Send" />
+
+}
+<div class="container">
+    @Html.ActionLink("Back to List", "RegistredIndex")
+</div>

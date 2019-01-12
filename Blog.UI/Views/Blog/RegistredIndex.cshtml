@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Blog.View.UserPostViewModel>
+
+<br /><br />
+<div class="container">
+	<h1 style="text-align:center">@ViewBag.PostCount</h1>
+    <ul style="list-style-type: none">
+        <li>
+            @foreach (var post in Model)
+            {
+                string shortText = "";
+                foreach (var getWord in post.PostText)
+                {
+                    if (shortText.Length != 400)
+                    {
+                        shortText += getWord;
+                    }
+                }
+                <div class="panel panel-default">
+                    <div class="panel-heading">@post.PostName &nbsp&nbsp<small>@post.UserName &nbsp&nbsp @post.CreatedPost</small></div>
+                    <div class="panel-body"><p>@shortText ... @Html.ActionLink("Read", "OpenPost", new { Id = post.Id }) </p></div>
+                    <div class="panel-footer">
+						<i class="glyphicon glyphicon-comment"><span class="badge">@post.CommentsCount</span></i>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						<span title="@ViewBag.LikeNames">Likes</span>&nbsp<span class="badge">@post.LikesCount</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+						<span>Dislikes</span>&nbsp<span class="badge">@post.DislikesCount</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        @if (User.Identity.Name == post.UserName || User.IsInRole("admin"))
+                        {
+                            @Html.ActionLink("Delete Post", "DeletePost", new { Id = post.Id }, new { @class = "btn btn-default" })
+                        }
+                    </div>
+                </div>
+                <br />
+            }
+        </li>
+    </ul>
+</div>

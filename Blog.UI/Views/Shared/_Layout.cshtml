@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title - My Blog Application</title>
+	<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="~/Scripts/layoutSettings.css" rel="stylesheet" />
+	<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common.min.css" />
+	<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.3.913/styles/kendo.blueopal.min.css" />
+	<script src="http://kendo.cdn.telerik.com/2017.3.913/js/jquery.min.js"></script>
+	<script src="http://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
+	<script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body style="background-color:aliceblue">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav pull-left">
+					@if (User.Identity.IsAuthenticated)
+					{
+						<li class="pull-left" id="role">
+							@if (User.IsInRole("admin"))
+							{
+								<h4 id="nameRole">Administrator</h4><br>
+							}
+							@if (User.IsInRole("user"))
+							{
+								<h4 id="nameRole">User</h4><br>
+							}
+							@if (User.IsInRole("corrector"))
+							{
+								<h4 id="nameRole">Corrector</h4><br>
+							}
+							
+							@if (User.IsInRole("blocked"))
+							{
+								<h4 id="nameRole" style="color:red">BLOCKED</h4><br>
+							}
+
+						</li>
+					}
+					@if (User.Identity.IsAuthenticated == false)
+					{
+						<li class="layoutli">@Html.ActionLink("Registration", "Register", "Account")</li>
+						<li class="layoutli">@Html.ActionLink("Login", "Login", "Account")</li>
+					}
+
+					@if (User.IsInRole("blocked"))
+					{
+						<li class="layoutli">@Html.ActionLink("Logout", "Logout", "Account")</li>
+					}
+
+					@if (User.Identity.IsAuthenticated && !User.IsInRole("blocked"))
+					{
+						<li class="layoutli">@Html.ActionLink("Logout", "Logout", "Account")</li>
+						<li class="layoutli">@Html.ActionLink("Create Post", "CreatePost", "Blog")</li>
+						<li class="layoutli">@Html.ActionLink("Last Posts", "Index", "Blog")</li>
+						<li class="layoutli">@Html.ActionLink("My Posts", "RegistredIndex", "Blog")</li>
+
+					}
+					@if (User.IsInRole("admin"))
+					{
+						<li class="layoutli">@Html.ActionLink("User Control", "Index", "Admin")</li>
+					}
+
+				</ul>
+				@if (!User.IsInRole("blocked"))
+				{
+					<form action="/Blog/Search" class="pull-left navbar-form navbar-left" role="search" method="post">
+						<div class="form-group">
+							<input type="text" name="blogName" class="form-control" placeholder="Search Blog">
+						</div>
+						<button type="submit" class="btn btn-default">Search</button>
+					</form>
+				}
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container body-content">
+		<div id="divRender">
+			@RenderBody()
+		</div>
+		<hr />
+		<div class="container">
+			<footer></footer>
+		</div>
+	</div>
+	<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+	<script src="~/Scripts/blogKendoScript.js"></script>
+
+</body>
+</html>

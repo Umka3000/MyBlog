@@ -1,0 +1,81 @@
+﻿@model Blog.View.UserPostViewModel
+@{
+	ViewBag.Title = "OpenBlog";
+}
+
+@if (Model.PostText.Count() == 0)
+{
+	@Html.Action("Index");
+}
+
+<h1 style="text-align:center">@Model.PostName</h1><br /><br />
+<div class="container">
+
+	<div class="container">
+		<div class="container">
+			@Html.Raw("<img src=\"data:image/jpeg;base64,"
+						 + Convert.ToBase64String(Model.Image) + "\" />")
+		</div><br />
+		@(new HtmlString(Model.PostText))
+	</div>
+	<div class="panel-info">
+		<div class="panel-footer" style="background-color:white">
+
+
+			@if (User.Identity.IsAuthenticated && ViewBag.Userlike == true)
+            {
+				<span>
+					<i class="glyphicon glyphicon-comment"><span class="badge">@Model.CommentsCount</span></i>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				</span>
+					<span id="addLike" title="@ViewBag.LikeNames">
+						@Ajax.ActionLink("Like", "_AddLike", new { postId = Model.Id }, new AjaxOptions { UpdateTargetId = "addLike" })&nbsp<span class="badge">@Model.LikesCount &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+					</span>
+					<span id="addDislike" title="@ViewBag.DislikeNames">
+						@Ajax.ActionLink("Dislike", "_AddDislike", new { postId = Model.Id }, new AjaxOptions { UpdateTargetId = "addDislike" })&nbsp<span class="badge">@Model.DislikesCount &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+					</span>}
+
+
+			@if (User.Identity.IsAuthenticated && ViewBag.Userlike == false)
+            {
+				<span>Likes &nbsp</span><span title="@ViewBag.LikeNames" class="badge">@Model.LikesCount &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+
+				<span title="@ViewBag.DislikeNames">Dislikes &nbsp</span><span class="badge">@Model.DislikesCount &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </span>
+			}
+
+			@if (!User.Identity.IsAuthenticated)
+			{
+				<span>Likes &nbsp</span><span title="@ViewBag.LikeNames" class="badge">@Model.LikesCount &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+
+					<span title="@ViewBag.DislikeNames">Dislikes &nbsp</span><span class="badge">@Model.DislikesCount &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </span>
+			}
+
+			@if (User.Identity.Name == Model.UserName || User.IsInRole("admin"))
+            {
+				@Html.ActionLink("Edit", "EditPost", new { postId = Model.Id }, new { @class = "btn btn-default" })
+            }
+			@Html.ActionLink("Back", "Index", null, new { @class = "btn btn-default" })
+		</div>
+
+	</div><br /><br />
+	<h2>Comments</h2><br />
+	@if (User.Identity.IsAuthenticated == true && !User.IsInRole("blocked"))
+	{
+		<div class="container">
+			<div class="row">
+				<div class="span4 well" style="padding-bottom:0; background-color:white; border:none">
+					@using (Ajax.BeginForm("_AddComment", new AjaxOptions { UpdateTargetId = "commentsblog", InsertionMode = InsertionMode.InsertBefore }))
+                    {             @Html.ValidationSummary()
+						<textarea class="span4" name="comment" id="textForComment" maxlength="500" cols="100" style="resize:none"
+								  placeholder="Type in your message" rows="10"></textarea>
+									<input type="hidden" name="id" value="@ViewBag.PostId" /><br><br>
+									<input type="hidden" name="UserName" value="@ViewBag.UserName" /><br><br>
+									<button class="btn btn-info" type="submit">Post new comment</button>
+					}
+				</div>
+			</div>
+		</div>}
+	<div id="commentsblog">
+		@Html.Action("_ShowComments");
+	</div>
+</div>
+<br /><br />

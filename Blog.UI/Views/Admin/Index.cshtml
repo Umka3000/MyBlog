@@ -1,0 +1,91 @@
+﻿@model List< Blog.View.UserViewModel>
+@{
+	ViewBag.Title = "Index";
+}
+<br><br />
+
+	<table class="table">
+		<thead class="thead-inverse">
+			<tr>
+				<th>UserId</th>
+				<th>UserEmail</th>
+				<th>Roles</th>
+			</tr>
+		</thead>
+		<tbody>
+@{
+
+	int userCount = 1;
+	for (int i = 0; i < Model.Count(); i++)
+	{
+		string userRoles = "";
+		<tr>
+			<th scope="row">@userCount</th>
+			<td>@Model[i].Email</td>
+			@for (int j = 0; j < Model[i].Roles.Count(); j++)
+			{
+				if (Model[i].Roles[j] == "none")
+				{
+					userRoles = Model[i].Roles[j];
+					break;
+				}
+				userRoles = Model[i].Roles[j];
+
+			}
+
+			<td>@userRoles</td>
+			<td style="width:50px">
+				@using (Html.BeginForm("DeleteUser", "Admin"))
+				{
+					<input type="hidden" name="userEmail" value="@Model[i].Email" />
+							<input type="submit" class="btn btn-danger" value="Delete" />
+				}
+
+			</td>
+			<td style="width:50px">
+				@using (Html.BeginForm("Index", "Blog"))
+				{
+					<input type="hidden" name="nameUser" value="@Model[i].Email" />
+							<input type="submit" class="btn btn-info" value="Posts" />
+				}
+
+			</td>
+
+			<td style="width:50px">
+				@using (Html.BeginForm("ShowEditedUser", "Admin"))
+				{
+					<input type="hidden" name="email" value="@Model[i].Email" />
+					<input type="submit" class="btn btn-success" value="EditUser" />
+				}
+
+			</td>
+			<td>
+				@if (userRoles != "blocked")
+				{
+					using (Html.BeginForm("BlockBlogUser", "Admin"))
+					{
+						<input type="hidden" name="email" value="@Model[i].Email" />
+						<input type="submit" class="btn btn-default" value="Block User" />
+					}
+				}
+
+				@if (userRoles == "blocked")
+				{
+					using (Html.BeginForm("UnblockBlogUser", "Admin"))
+					{
+						<input type="hidden" name="email" value="@Model[i].Email" />
+						<input type="submit" class="btn btn-danger" value="Unblock User" />
+					}
+				}
+			</td>
+		</tr>
+		++userCount;
+		userRoles = "";
+	}
+
+}
+			
+		</tbody>
+
+	</table>
+

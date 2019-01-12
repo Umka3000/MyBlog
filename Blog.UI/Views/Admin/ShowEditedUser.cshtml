@@ -1,0 +1,29 @@
+﻿@model Blog.View.EditUserViewModel
+@{
+    ViewBag.Title = "EditBlogUser";
+}
+<br /><br />
+
+<div id="correctionBlock">
+	
+	<form  action="/Admin/EditBlogUser" method="post">
+		<div class="form-group">
+			<input type="hidden" name="firstuseremail" value="@Model.Email" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="text" name="email" value="@Model.Email" class="form-control">
+		</div>
+		<label for="role">Roles</label>
+		<select class="form-control" name="role">
+			<option value="user">User</option>
+			<option value="admin">Admin</option>
+			<option value="corrector">Corrector</option>
+		</select>
+		<div class="form-group">
+			<input type="submit" class="btn btn-primary" />
+		</div>
+	</form>
+</div>
+
+

@@ -1,0 +1,6 @@
+﻿@model List<Blog.View.UserCommentViewModel>
+
+@foreach (var comments in Model)
+            {
+	<div><span style="color:cadetblue"><small>@comments.CreatedTime</small></span> &nbsp&nbsp <span style="color:brown"><small>@comments.User</small></span><br /><br /> @comments.Comment</div><br /><hr />
+}
