@@ -30,7 +30,7 @@ namespace Blog.BLL
         {
             _postsRepository = new PostsRepository();
             _likesRepository = new LikesRepository();
-            _commentsRepositorl = new CommentsRepository();
+            _commentsRepository = new CommentsRepository();
         }
 
         public void DeletePostById(int id, string name, bool role)
