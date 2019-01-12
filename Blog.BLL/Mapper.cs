@@ -11,7 +11,7 @@ using Blog.VIewModel;
 
 namespace Blog.BLL
 {
-   public class Mapper
+    public class Mapper
     {
         public static Post ViewPostToPost(UserPostViewModel inputPost)
         {
@@ -26,40 +26,32 @@ namespace Blog.BLL
 
         public static List<UserCommentViewModel> ListCommentsToViewListComments(List<Comment> comments)
         {
-            List<UserCommentViewModel> postComments = new List<UserCommentViewModel>();
-            foreach (var comment in comments)
+            var tempComments = comments.Select(x => new UserCommentViewModel
             {
-                var userComment = new UserCommentViewModel();
-                userComment.Comment = comment.UserComment;
-                userComment.CreatedTime = comment.CreatedComment;
-                userComment.PostId = comment.PostId;
-                userComment.User = comment.UserPostCreator;
-                userComment.UserPostCreator = comment.User;
-                postComments.Add(userComment);
+                Comment = x.UserComment,
+                CreatedTime = x.CreatedComment,
+                PostId = x.PostId,
+                User = x.UserPostCreator,
+                UserPostCreator = x.User
 
+            }).ToList();
 
-            }
-            return postComments;
+            return tempComments;
         }
 
         public static List<UserViewModel> GetViewUser(BlogUserManager userManager)
         {
-            List<UserViewModel> blogUsers = new List<UserViewModel>();
             var tempUsers = userManager.Users.ToList();
 
-            for (int i = 0; i < tempUsers.Count(); i++)
+            int i = 0;
+            var tempBlogUsers = tempUsers.Select(x => new UserViewModel
             {
-                var blogUser = new UserViewModel();
-                blogUser.Id = i;
-                blogUser.Email = tempUsers[i].Email;
-                blogUser.Roles = userManager.GetRoles(tempUsers[i].Id).ToList();
-                if (blogUser.Roles.Count() == 0)
-                {
-                    blogUser.Roles.Add("none");
-                }
-                blogUsers.Add(blogUser);
-            }
-            return blogUsers;
+                Id = i++,
+                Email = x.Email,
+                Roles = (userManager.GetRoles(x.Id).ToList().Count() == 0)? new List<string>() {"none"}: userManager.GetRoles(x.Id).ToList(),
+            }).ToList(); 
+
+            return tempBlogUsers;
         }
 
         public static UserPostViewModel PostToViewPost(Post inputPost)
@@ -76,21 +68,17 @@ namespace Blog.BLL
 
         public static List<UserPostViewModel> ListPostToViewListPost(List<Post> posts)
         {
-            List<UserPostViewModel> viewPost = new List<UserPostViewModel>();
-
-            for (int i = 0; i < posts.Count(); i++)
+            var tempViewPosts = posts.Select(x => new UserPostViewModel
             {
-                UserPostViewModel post = new UserPostViewModel();
-                post.Id = posts[i].Id;
-                post.UserName = posts[i].UserName;
-                post.PostText = posts[i].PostText;
-                post.CreatedPost = posts[i].CreatedPost;
-                post.PostName = posts[i].PostName;
+                Id = x.Id,
+                UserName = x.UserName,
+                PostText = x.PostText,
+                CreatedPost = x.CreatedPost,
+                PostName = x.PostName
 
-                viewPost.Add(post);
-            }
+            }).ToList();
 
-            return viewPost;
+            return tempViewPosts;
         }
 
         public static EditUserViewModel BlogUserInViewUser(BlogUser user)
@@ -105,19 +93,16 @@ namespace Blog.BLL
 
         public static List<Post> ViewListPostToListPost(List<UserPostViewModel> postsUI)
         {
-            List<Post> posts = new List<Post>();
-
-            for (int i = 0; i < posts.Count(); i++)
+            var tempPosts = postsUI.Select(x => new Post
             {
-                Post post = new Post();
-                post.Id = postsUI[i].Id;
-                post.PostName = postsUI[i].PostName;
-                post.PostText = postsUI[i].PostText;
-                post.CreatedPost = postsUI[i].CreatedPost;
-                post.UserName = postsUI[i].UserName;
-                posts.Add(post);
-            }
-            return posts;
+                Id = x.Id,
+                PostName = x.PostName,
+                PostText = x.PostText,
+                CreatedPost = x.CreatedPost,
+                UserName = x.UserName,
+            }).ToList();
+
+            return tempPosts;
         }
     }
 }

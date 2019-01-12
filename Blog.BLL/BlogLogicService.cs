@@ -159,7 +159,6 @@ namespace Blog.BLL
                 userPost.Image = binaryReader.ReadBytes(post.uploadPicture.ContentLength);
             }
             _postsRepository.SavePost(userPost);
-
         }
 
         public string GetLikesNames(int postId)
@@ -217,7 +216,7 @@ namespace Blog.BLL
 
         private Comment FillPostComment(string comment, int id, string userWho, string userTo, string time, Post post)
         {
-            Comment userComment = new Comment();
+            var userComment = new Comment();
             userComment.Post = post;
             userComment.User = userWho;
             userComment.CreatedComment = time;
