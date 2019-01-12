@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Blog.DAL.IdentityServices
 {
-   public class BlogUserManager:UserManager<BlogUser>
+   public class BlogUserManager: UserManager<BlogUser>
     {
         public BlogUserManager(IUserStore<BlogUser> store) : base(store)
         {

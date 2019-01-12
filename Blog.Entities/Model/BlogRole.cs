@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Entities.Model
 {
-   public class BlogRole:IdentityRole
+    public class BlogRole : IdentityRole
     {
     }
 }

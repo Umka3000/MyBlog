@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Entities.Model
 {
-   public class BlogUser:IdentityUser
+    public class BlogUser : IdentityUser
     {
     }
 }

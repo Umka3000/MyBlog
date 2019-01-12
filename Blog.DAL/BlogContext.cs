@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Blog.DAL
 {
-    public class BlogContext:IdentityDbContext<BlogUser>
+    public class BlogContext : IdentityDbContext<BlogUser>
     {
         public static string ConnectionString
         {
@@ -21,14 +21,11 @@ namespace Blog.DAL
             }
         }
 
-        public BlogContext():base("IdentityDb")
-        {
+        public BlogContext() : base("IdentityDb") { }
 
-        }
-
-        public  DbSet<Post> UserPosts { get; set; }
-        public  DbSet<Comment> Comments { get; set; }
-        public  DbSet<Like> Likes { get; set; }
+        public DbSet<Post> UserPosts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
         public DbSet<Picture> Pictures { get; set; }
 
         public static BlogContext Create()

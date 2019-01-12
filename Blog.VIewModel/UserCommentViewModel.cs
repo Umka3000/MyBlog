@@ -15,6 +15,5 @@ namespace Blog.View
         public string CreatedTime { get; set; }
         public string User { get; set; }
         public string UserPostCreator { get; set; }
-
     }
 }

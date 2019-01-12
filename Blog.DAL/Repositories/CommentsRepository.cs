@@ -11,12 +11,14 @@ namespace Blog.DAL.Repositories
     {
         public List<Comment> GetPostComments(int id)
         {
-            List<Comment> comments = new List<Comment>();
+            var comments = new List<Comment>();
+
             using (var context = new BlogContext())
             {
                 comments = context.Comments.Where(comment => comment.PostId == id).ToList();
             }
             comments.Reverse();
+
             return comments;
         }
 
@@ -33,10 +35,12 @@ namespace Blog.DAL.Repositories
         public int CountOfComments(int id)
         {
             int count = 0;
+
             using (var context = new BlogContext())
             {
                 count = context.Comments.Where(comment => comment.PostId == id).Count();
             }
+
             return count;
         }
     }

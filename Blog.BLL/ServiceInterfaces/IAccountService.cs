@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Blog.BLL.ServiceInterfaces
 {
-   public interface IAccountService
+    public interface IAccountService
     {
         void UserOut();
         void RegistrationUser(RegisterViewModel viewModel);
-       void UserLogin(LoginViewModel model);
+        void UserLogin(LoginViewModel model);
     }
 }

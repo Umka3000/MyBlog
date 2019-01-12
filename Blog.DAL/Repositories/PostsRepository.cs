@@ -9,20 +9,23 @@ namespace Blog.DAL.Repositories
 {
     public class PostsRepository
     {
-        public List<Post> AllPosts()
+        public List<Post> GetAllPosts()
         {
-            List<Post> posts = new List<Post>();
+            var posts = new List<Post>();
+
             using (var context = new BlogContext())
             {
                 posts = context.UserPosts.ToList();
             }
+
             posts.Reverse();
             return posts;
         }
 
-        public List<Post> PostsByUserName(string name)
+        public List<Post> GetPostsByUserName(string name)
         {
-            List<Post> posts = new List<Post>();
+            var posts = new List<Post>();
+
             using (var context = new BlogContext())
             {
                 posts = context.UserPosts.Where(post => post.UserName == name).ToList();
@@ -43,9 +46,11 @@ namespace Blog.DAL.Repositories
         public void DeletePostById(int id, string user, bool role)
         {
             var post = new Post();
+
             using (var context = new BlogContext())
             {
                 post = context.UserPosts.Where(userPost => userPost.Id == id).FirstOrDefault();
+
                 if (post.UserName == user || role)
                 {
                     context.UserPosts.Remove(post);
@@ -54,7 +59,7 @@ namespace Blog.DAL.Repositories
             }
         }
 
-        public Post PostById(int id)
+        public Post GetPostById(int id)
         {
             var post = new Post();
             using (var context = new BlogContext())
@@ -67,12 +72,14 @@ namespace Blog.DAL.Repositories
         public Post SavePostChanges(string info, int id)
         {
             var post = new Post();
+
             using (var context = new BlogContext())
             {
                 post = context.UserPosts.Where(userPost => userPost.Id == id).FirstOrDefault();
                 post.PostText = info;
                 context.SaveChanges();
             }
+
             return post;
         }
     }

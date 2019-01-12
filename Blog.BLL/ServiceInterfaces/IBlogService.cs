@@ -27,8 +27,5 @@ namespace Blog.BLL.ServiceInterfaces
         bool CheckUserLike(string userName, int postId);
         string GetLikesNames(int postId);
         string GetDislikesNames(int postId);
-
-
-
     }
 }

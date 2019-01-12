@@ -55,7 +55,7 @@ namespace Blog.BLL
         {
             int countOfLikes = 0;
             bool getLike = true;
-            Post post = _postsRepository.PostById(postId);
+            Post post = _postsRepository.GetPostById(postId);
             Like like = FillLikeOrDislike(userName, postId, getLike, post);
             _likesRepository.AddLike(like, post);
             countOfLikes = _likesRepository.GetLikesOrDislikes(postId, getLike);
@@ -86,7 +86,7 @@ namespace Blog.BLL
         {
             int countOfDislikes = 0;
             bool getDislike = false;
-            Post post = _postsRepository.PostById(postId);
+            Post post = _postsRepository.GetPostById(postId);
             Like dislike = FillLikeOrDislike(userName, postId, getDislike, post);
             _likesRepository.AddLike(dislike, post);
             countOfDislikes = _likesRepository.GetLikesOrDislikes(postId, getDislike);
@@ -95,7 +95,7 @@ namespace Blog.BLL
 
         public UserCommentViewModel AddUserComment(string comment, int id, string userWho, string userTo)
         {
-            Post post = _postsRepository.PostById(id);
+            Post post = _postsRepository.GetPostById(id);
             string time = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
             UserCommentViewModel postComment = FillViewComment(comment, id, userWho, userTo, time);
             Comment userComment = FillPostComment(comment, id, userWho, userTo, time, post);
@@ -106,7 +106,7 @@ namespace Blog.BLL
 
         public List<UserPostViewModel> GetAllPosts()
         {
-            List<UserPostViewModel> userPosts = Mapper.ConvertPostsToViewPost(_postsRepository.AllPosts());
+            List<UserPostViewModel> userPosts = Mapper.ConvertPostsToViewPost(_postsRepository.GetAllPosts());
 
             foreach (var post in userPosts)
             {
@@ -119,14 +119,14 @@ namespace Blog.BLL
 
         public UserPostViewModel GetPost(int id)
         {
-            UserPostViewModel userPost = Mapper.ConvertPostToViewPost(_postsRepository.PostById(id));
+            UserPostViewModel userPost = Mapper.ConvertPostToViewPost(_postsRepository.GetPostById(id));
             userPost.CommentsCount = _commentsRepository.CountOfComments(userPost.Id);
             return userPost;
         }
 
         public List<UserPostViewModel> GetUserPosts(string name)
         {
-            List<Post> posts = _postsRepository.PostsByUserName(name);
+            List<Post> posts = _postsRepository.GetPostsByUserName(name);
             List<UserPostViewModel> viewPosts = Mapper.ConvertPostsToViewPost(posts);
             foreach (var post in viewPosts)
             {
@@ -139,7 +139,7 @@ namespace Blog.BLL
 
         public UserPostViewModel GetUserPostForEdit(int id)
         {
-            UserPostViewModel userPost = Mapper.ConvertPostToViewPost(_postsRepository.PostById(id));
+            UserPostViewModel userPost = Mapper.ConvertPostToViewPost(_postsRepository.GetPostById(id));
             return userPost;
         }
 
