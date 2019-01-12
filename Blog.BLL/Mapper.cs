@@ -13,7 +13,7 @@ namespace Blog.BLL
 {
     public class Mapper
     {
-        public static Post ViewPostToPost(UserPostViewModel inputPost)
+        public static Post ConvertViewPostToPost(UserPostViewModel inputPost)
         {
             var post = new Post();
             post.Id = inputPost.Id;
@@ -24,7 +24,7 @@ namespace Blog.BLL
             return post;
         }
 
-        public static List<UserCommentViewModel> ListCommentsToViewListComments(List<Comment> comments)
+        public static List<UserCommentViewModel> ConvertCommentsToViewComments(List<Comment> comments)
         {
             var tempComments = comments.Select(x => new UserCommentViewModel
             {
@@ -54,7 +54,7 @@ namespace Blog.BLL
             return tempBlogUsers;
         }
 
-        public static UserPostViewModel PostToViewPost(Post inputPost)
+        public static UserPostViewModel ConvertPostToViewPost(Post inputPost)
         {
             var post = new UserPostViewModel();
             post.Id = inputPost.Id;
@@ -66,7 +66,7 @@ namespace Blog.BLL
             return post;
         }
 
-        public static List<UserPostViewModel> ListPostToViewListPost(List<Post> posts)
+        public static List<UserPostViewModel> ConvertPostsToViewPost(List<Post> posts)
         {
             var tempViewPosts = posts.Select(x => new UserPostViewModel
             {
@@ -91,7 +91,7 @@ namespace Blog.BLL
             return blogUserView;
         }
 
-        public static List<Post> ViewListPostToListPost(List<UserPostViewModel> postsUI)
+        public static List<Post> ConvertViewPostToPost(List<UserPostViewModel> postsUI)
         {
             var tempPosts = postsUI.Select(x => new Post
             {

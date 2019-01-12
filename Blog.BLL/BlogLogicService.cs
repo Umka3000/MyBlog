@@ -40,7 +40,7 @@ namespace Blog.BLL
 
         public List<UserCommentViewModel> PostComments(int id)
         {
-            List<UserCommentViewModel> comments = Mapper.ListCommentsToViewListComments(_commentsRepository.GetPostComments(id));
+            List<UserCommentViewModel> comments = Mapper.ConvertCommentsToViewComments(_commentsRepository.GetPostComments(id));
             return comments;
         }
 
@@ -106,7 +106,7 @@ namespace Blog.BLL
 
         public List<UserPostViewModel> GetAllPosts()
         {
-            List<UserPostViewModel> userPosts = Mapper.ListPostToViewListPost(_postsRepository.AllPosts());
+            List<UserPostViewModel> userPosts = Mapper.ConvertPostsToViewPost(_postsRepository.AllPosts());
 
             foreach (var post in userPosts)
             {
@@ -119,7 +119,7 @@ namespace Blog.BLL
 
         public UserPostViewModel GetPost(int id)
         {
-            UserPostViewModel userPost = Mapper.PostToViewPost(_postsRepository.PostById(id));
+            UserPostViewModel userPost = Mapper.ConvertPostToViewPost(_postsRepository.PostById(id));
             userPost.CommentsCount = _commentsRepository.CountOfComments(userPost.Id);
             return userPost;
         }
@@ -127,7 +127,7 @@ namespace Blog.BLL
         public List<UserPostViewModel> GetUserPosts(string name)
         {
             List<Post> posts = _postsRepository.PostsByUserName(name);
-            List<UserPostViewModel> viewPosts = Mapper.ListPostToViewListPost(posts);
+            List<UserPostViewModel> viewPosts = Mapper.ConvertPostsToViewPost(posts);
             foreach (var post in viewPosts)
             {
                 post.CommentsCount = _commentsRepository.CountOfComments(post.Id);
@@ -139,13 +139,13 @@ namespace Blog.BLL
 
         public UserPostViewModel GetUserPostForEdit(int id)
         {
-            UserPostViewModel userPost = Mapper.PostToViewPost(_postsRepository.PostById(id));
+            UserPostViewModel userPost = Mapper.ConvertPostToViewPost(_postsRepository.PostById(id));
             return userPost;
         }
 
         public UserPostViewModel SaveUserPostChanges(string info, int id)
         {
-            UserPostViewModel viewPost = Mapper.PostToViewPost(_postsRepository.SavePostChanges(info, id));
+            UserPostViewModel viewPost = Mapper.ConvertPostToViewPost(_postsRepository.SavePostChanges(info, id));
             return viewPost;
         }
 
@@ -153,7 +153,7 @@ namespace Blog.BLL
         {
             string createTime = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
             post.CreatedPost = createTime;
-            Post userPost = Mapper.ViewPostToPost(post);
+            Post userPost = Mapper.ConvertViewPostToPost(post);
             using (var binaryReader = new BinaryReader(post.uploadPicture.InputStream))
             {
                 userPost.Image = binaryReader.ReadBytes(post.uploadPicture.ContentLength);
